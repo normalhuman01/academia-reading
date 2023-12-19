@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/fav.ico" type="image/x-icon">
+    <title>Noxford - <%- title %></title>
+</head>
+<body>
+
+    <!-- Flash Message -->
+    <% if (locals.flash) { %>
+        <div id="alert" class="alert alert-<%= type %> " role="alert">
+            <%= flash %>
+        </div>
+        <script>
+            const id = document.querySelector("#alert");
+            setTimeout(() => {
+                id.remove();
+            }, 5000);
+        </script>
+    <% } %>
+
+    <!-- Navbar -->
+    <%- include("partials/_nav.ejs") %>
+
+    <!-- |||||||||||||| -->
+    <%- body %>
+    <!-- |||||||||||||| -->
+
+    <!-- Footer -->
+    <%- include("partials/_footer.ejs") %> 
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

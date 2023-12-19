@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="container py-3">
+        <p>
+            <a href="/collection">Back to collections</a>
+        </p>
+        <div class="row">
+            <div class="col-sm text-center mb-5 mb-sm-0 bg-light py-5">
+                <img class="rounded img-fluid" src="<%= book.cover %>" alt="<%= book.name %>'s Cover Photo.">
+            </div>
+            <div class="col-sm-4 px-4">
+                <h1 class="py-2 fw-bold"><%= book.name %></h1>
+                <p>
+                    <strong>Author: </strong> <%= book.author %> <br/>
+                    <strong>Published: </strong> <%= book.pub %>
+                </p>
+                <p>
+                    <% if (book.des) { %>
+                        <%= book.des %>
+                    <% } else { %>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum, excepturi. Placeat quam praesentium est architecto ad, velit facere libero, consequuntur culpa quo facilis voluptatem illo, pariatur obcaecati eos eveniet amet.
+                    <% } %>
+                </p>
+                <form action="/place" method="post">
+                    <div class="form-group py-1">
+                        <label for="book">Book Name:</label>
+                        <input class="form-control" type="text" readonly name="book" id="book" value="<%= book.name %>">
+                    </div>
+                    <div class="form-group py-1">
+                        <label for="platform">Platform</label>
+                        <select class="form-control" name="platform" required>
+                        <% if (book.library) { %>
+                                <option value="library">Library</option>
+                                <option value="online">Online PDF</option>
+                        </select>
+                        <% } else { %>
+                                <option value="online">Online PDF</option>
+                                <option value="library" disabled>Library</option>
+                        </select>
+                        <small class="form-text text-danger">This book is not available in the library right now.</small>
+                        <% } %>
+                     </div>
+                    <p>
+                        <button type="submit" class="btn btn-outline-primary my-3">Place Hold</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

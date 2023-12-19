@@ -1,0 +1,14 @@
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="col-lg-8">
+            <img src="img/profile.png" alt="">
+            <h1 class="fw-bold"><%= user.fullname %></h1>
+            <p> 
+                <strong>UserId: </strong><%= user.userId %><br/>
+                <strong>Email: </strong><%= user.email %><br/>
+                <strong>Books: </strong><%= books %><br/>
+            </p>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+</div>

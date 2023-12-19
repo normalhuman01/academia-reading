@@ -1,0 +1,97 @@
+<div class="container-fluid py-5 py-sm-4 bg-light">
+    <div class="container pb-sm-3 text-primary">
+        <div class="m-auto">
+            <h1 class="display-2 mb-lg-6">Search what you read!</h1>
+            <form id="form" action="">
+                <div class="input-group py-3">
+                    <div class="form-outline w-75">
+                        <input name="search" type="text" id="search" class="form-control" placeholder="Search Books" required/>
+                    </div>
+                    <button name="submit" type="submit" class="btn btn-primary form-control">Search</button> 
+                </div>
+                <div class="form-group py-1">
+                    <label for="sort">Sort by</label>
+                    <select class="form-control" name="sort" required>
+                            <option value="name">Name</option>
+                            <option value="pub">Date</option>
+                            <option value="stars">Rating</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="container">
+        <h2 class="mb-3 text-secondary">Search Results:</h2>
+        <div id="result_div" class="books_container row">
+            <!-- results will be here through ajax -->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const form = document.getElementById("form");
+
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        loadResult(form.search.value, form.sort.value);
+    });
+    form.sort.addEventListener("change", e => {
+        e.preventDefault();
+        loadResult(form.search.value, form.sort.value);
+    });
+ 
+
+
+
+
+
+
+
+    function loadResult(search, sort) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            const data = JSON.parse(this.responseText);
+            var rendered = "";
+            if (!data || data.length < 1)
+                rendered = "<p>No books found.<p>";
+            else
+                for (const book of data) {
+                    rendered += render_book(book);
+                }
+            document.getElementById("result_div").innerHTML = rendered;
+        }
+        xhttp.open("GET", `/search/result?text=${search}&method=${sort}`);
+        xhttp.send();
+        preLoader();
+    }
+
+
+    function render_book(book) {
+        return `
+            <div class="col-sm-6 col-md-4 col-lg-3 text-center text-sm-start">
+                <div class="book_card">
+                    <a href="books?name=${book.name}" class="text_none text-dark">
+                        <img class="smooth rounded img-fluid" src="${book.cover}" alt="an image">
+                        <h2 class="text-primary mt-2">${book.name}</h2>
+                        <p>
+                            <small>${book.author}</small>
+                            <small class="text-muted">${book.pub}</small>
+                        </p>
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+    function preLoader() {
+        document.getElementById("result_div").innerHTML += `
+            <div id="loading_overlay">
+                <div class="text-light">
+                    <img src="img/logo-mini.png" alt="" width="50">
+                </div>
+            </div>
+        `;
+    }
+</script>
